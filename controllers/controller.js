@@ -90,6 +90,7 @@ const updateUserById = async (req, res) => {
 const createBudgetAccount = async (req, res) => {
 
     // let userId = req.userid 
+    
     // console.log(req.userid);
 
     const { name, amount, typeOfBudget} = req.body;
