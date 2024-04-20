@@ -24,4 +24,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-app.use('/api',route)
+app.use('/',route)

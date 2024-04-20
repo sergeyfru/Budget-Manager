@@ -1,10 +1,21 @@
 const bcrypt = require("bcrypt");
-const { _createBudgetAccount, _createUser, _getUserByEmail, _getAllUsers, _getUserById, _updateUserById, } = require("../models/model.js");
+const { 
+    _createBudgetAccount,
+    _updateBudgetAccount,
+    _createUser,
+    _getUserByEmail,
+    _getAllUsers,
+    _getUserById,
+    _updateUserById,
+    _deleteBudgetAccount,
+    _createExpenses,
+} = require("../models/model.js");
+const { json } = require("express");
 
 
 const registerUser = async (req, res) => {
     const { password, email, username, first_name, last_name } = req.body;
-
+console.log('controler 1');
     const user = {
         username,
         password,
@@ -15,10 +26,15 @@ const registerUser = async (req, res) => {
 
     try {
         const userid = await _createUser(user);
-        res.status(201).json({ message: "User registered successfully" }, userid);
+        if(!userid){
+            res.status(201).json({message: 'User already created'})
+        }else{
+
+            res.status(201).json({ message: "User registered successfully", userid });
+        }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Internal server error" });
+        // console.error(error);
+        res.status(500).json({ err: "Internal server error" , error});
     }
 };
 
@@ -89,20 +105,87 @@ const updateUserById = async (req, res) => {
 
 const createBudgetAccount = async (req, res) => {
 
-    // let userId = req.userid 
-    
-    // console.log(req.userid);
-
-    const { name, amount, typeOfBudget} = req.body;
+    const { account_name, account_amount, type_name} = req.body;
+    const {userid} = req.body
+    // const userId = req.userid
+    console.log('contr before rty');
     try {
-        await _createBudgetAccount( name, amount, typeOfBudget, userId=2 )
-        res.json({ message: "asset was added successfully" });
+        console.log('contr try');
+        const newAccount = await _createBudgetAccount( account_name, account_amount, type_name.toLowerCase(), userid )
+        if(!newAccount){
+            res.json({message: 'Budget Account already created'})
+        }else{
+            res.json({ message: "asset was added successfully" , newAccount});
+        }
     } catch (error) {
+        console.log('contr catch');
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
 
 };
+
+const  updateBudgetAccount = async(req,res) =>{
+    const {account_name, old_account_name,  account_amount} = req.body
+    // const userId = req.userid
+    const {userid} = req.body
+
+
+    try{
+        const updatedAccount = await _updateBudgetAccount(userid,account_name, old_account_name,  account_amount)
+        res.json(updatedAccount)
+
+    }catch (error) {
+        console.log('controller catch');
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+
+}
+
+const deleteBudgetAccount = async (req,res)=>{
+    const {account_name, } = req.body
+    // const userId = req.userid
+    const {userid} = req.body
+    try{
+        const deletedAccount = await _deleteBudgetAccount(userid, account_name)
+
+        res.json({message: 'Account deleted successfully' ,deletedAccount})
+    }catch (error) {
+        console.log('controller catch');
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+
+
+
+}
+
+
+
+
+
+
+const createExpenses = async(req,res) =>{
+    const {exp_amount, exp_name, t_exp_name, account_name,} = req.body
+    // const userid = req.userid
+    const {userid} = req.body
+    try{
+        console.log(userid);
+
+        const newExpenses = await _createExpenses(exp_amount, exp_name, t_exp_name.toLowerCase(), account_name,userid)
+
+        if(newExpenses < 0){
+            res.json({message:`You dont have enought money here. You need ${newExpenses} more`})
+        
+        }else{
+            res.json(newExpenses)
+        }
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 
 module.exports = {
@@ -111,4 +194,7 @@ module.exports = {
     getAllUsers,
     updateUserById,
     createBudgetAccount,
+    updateBudgetAccount,
+    deleteBudgetAccount,
+    createExpenses,
 };
