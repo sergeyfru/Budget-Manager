@@ -8,7 +8,7 @@
 body {
     height: 100vh;
     width: 100%;
-    background: url("images/hero-bg.jpg") center/cover no-repeat;
+    background: url("pexels-photo-531880.jpeg") center/cover no-repeat;
 }
 header {
     position: fixed;
@@ -144,13 +144,13 @@ header {
 }
 .login .form-details {
     padding: 0 40px;
-    background: url("images/login-img.jpg");
+    background: url("dashphoto.jpg");
     background-position: center;
     background-size: cover;
 }
 .signup .form-details {
     padding: 0 20px;
-    background: url("images/signup-img.jpg");
+    background: url("dashphoto.jpg");
     background-position: center;
     background-size: cover;
 }
