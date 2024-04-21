@@ -7,6 +7,8 @@ const {registerUser,
     createBudgetAccount,
     updateBudgetAccount,
     deleteBudgetAccount,
+    getAllTypeOfExpenses,
+    getAllExpenses,
     createExpenses,
 } = require('../controllers/controller.js')
 
@@ -25,6 +27,9 @@ route.get('/budget/list', getAllBudgetAccounts)
 route.post('/budget', createBudgetAccount) /** */
 route.put('/budget', updateBudgetAccount)
 route.delete('/budget', deleteBudgetAccount)
+
+route.get('/expenses/type', getAllTypeOfExpenses)
+route.get('/expenses/list', getAllExpenses)
 
 route.post('/expenses', createExpenses)
 

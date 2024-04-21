@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 85vh;
+}
+header{
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+ul{
+    list-style: decimal;
+    padding: 5px;
+}
+#previusAssets li{
+    padding: 4px 10px;
+}
+li h4{
+    display: inline-block;
+    padding-right: 20px;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.option form{
+    flex-grow: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.option{
+    height: 400px;
+    width: 600px;
+    border: 1px solid black;
+    padding: 10px 20px;
+  
+}
+#assets{
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+}
+#expenses{
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+}
+#info{
+    width: 400px;
+    height: 200px;
+    background-color: rgba(0, 255, 255, 0.15);
+    position: relative;
+    display: none;
+    text-align: center;
+    padding: 86px;
+}
+#info button{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    color: black;
+    background-color: transparent;
+    font-size: 26px;
+    font-weight: 600;
+
+}

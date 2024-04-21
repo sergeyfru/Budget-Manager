@@ -1,6 +1,7 @@
 const express = require('express')
 const route = require('./routes/routes.js')
 const session = require('express-session')
+const cors = require('cors')
 
 const app = express()
 
@@ -10,7 +11,17 @@ app.use(session({
   saveUninitialized: false
 }))
 
+app.use(cors());
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5500');
+  next();
+});
+
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+//   next();
+// });
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())

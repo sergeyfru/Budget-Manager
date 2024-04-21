@@ -90,26 +90,44 @@ const _updateUserById = async (id, updatedUser) => {
   }
 }
 
-const _createBudgetAccount = async (accName, accAmount, accType, userId) => {
+const _getAllTypeOfBudget = async()=>{
+  try {
+    const type_of_budget = await db("type_of_budget").select('type_name','type_id');
+    return type_of_budget;
+  } catch (error) {
+    throw error;
+  }
+}
+const _getAllBudgetAccounts = async(userid)=>{
+  try {
+    const budget_accounts = await db("budget_account").select('account_name','account_amount').where({userid});
+    return budget_accounts;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const _createBudgetAccount = async (account_name, account_amount, type_id, userid) => {
   const trx = await db.transaction();
   console.log('model refor try');
   try {
     console.log('model try 1');
 
-    const accountAlreadyCreated = await trx('budget_account').select('account_name', 'account_amount').where({ userid: userId, account_name: accName }).first()
+    const accountAlreadyCreated = await trx('budget_account')
+    .select('account_name', 'account_amount').where({ userid, account_name }).first()
     if (accountAlreadyCreated) {
       return 0
     }
     console.log('model try 2');
-    const [type_id] = await trx("type_of_budget").select('type_id', 'type_name').where({ type_name: accType })
-    console.log(type_id.type_id);
+    
+    const [newAccount] = await trx('budget_account')
+    .insert({ type_id, account_name, account_amount, userid }, ['account_name', 'account_amount'])
     console.log('model try 3');
 
-    const newAccount = await trx('budget_account').insert({ type_id: type_id.type_id, account_name: accName, account_amount: accAmount, userid: userId }, ['account_name', 'account_amount'])
-
-    console.log('model try 4');
     await trx.commit();
 
+    console.log(newAccount);
+    
     return newAccount;
 
   } catch (error) {
@@ -200,7 +218,24 @@ const _deleteBudgetAccount = async (userid, account_name) => {
   }
 
 }
+const _getAllExpenses =async(userid)=>{
+  try {
+    const expenses = await db("expenses").select('exp_id','exp_name','exp_amount');
+    return expenses;
+  } catch (error) {
+    throw error;
+  }
+}
 
+
+const _getAllTypeOfExpenses = async () => {
+  try {
+    const type_of_expenses = await db("type_of_expenses").select('t_exp_name','t_exp_id');
+    return type_of_expenses;
+  } catch (error) {
+    throw error;
+  }
+}
 
 
 
@@ -264,5 +299,8 @@ module.exports = {
   _createBudgetAccount,
   _updateBudgetAccount,
   _deleteBudgetAccount,
+  
+  _getAllExpenses,
+  _getAllTypeOfExpenses,
   _createExpenses,
 };

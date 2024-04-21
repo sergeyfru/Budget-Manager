@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="main2.css">
+    <script src="main2.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div id="greetings">
+
+            <h2>Name</h2>
+            <h3>email
+
+            </h3>
+        </div>
+        <nav id="nav">
+            <button id="btnAssets" onclick="btnAssetsClicked(event)">Assets</button>
+            <button id="btnExpenses" onclick="btnExpensesClicked(event)">Expenses</button>
+            <button>Other</button>
+            <button id="logOut">Log Out</button>
+        </nav>
+    </header>
+
+    <div class="main">
+        <div id="assets" class="option">
+            <h2>Yours payment methods</h2>
+            <div class="previus">
+                <ul id="previusAssets">
+                    <!-- <li>You dont have payment methods</li> -->
+                </ul>
+            </div>
+            <form onsubmit="addNewAsset(event)">
+                <div>
+                    <label for="type_name">Type: </label>
+                    <select id="type_name" name="type_name">
+                    </select>
+                </div>
+                <div>
+                    <label for="account_name">Name:</label>
+                    <input type="text" name="account_name" id="account_name" placeholder="Name for your method">
+                </div>
+                <div> <label for="account_amount">Amount:</label>
+                    <input type="text" name="account_amount" id="account_amount"><br>
+                </div> <input type="submit" value="ADD">
+            </form>
+        </div>
+        <div id="expenses" class="option">
+            <h2>Yours expenses</h2>
+            <div class="previus">
+                <ul id="previusExpenses">
+                    <!-- <li>You dont have previus expenses</li> -->
+                </ul>
+            </div>
+            <form action="">
+                <label for="t_exp_name">Type: </label>
+                <select id="t_exp_name" name="t_exp_name"></select>
+                <label for="exp_name">Name:</label>
+                <input type="text" name="exp_name" id="exp_name" placeholder="Name for your expense">
+                <label for="exp_amount">Amount:</label>
+                <input type="text" name="exp_amount" id="exp_amount">
+                <input type="submit" value="ADD">
+            </form>
+        </div>
+        <div id="info">
+            <button onclick="close(event)">X</button>
+            <h2>wfrfge</h2>
+        </div>
+    </div>
+</body>
+<h4>${obj[i].account_name.toUpperCase()}</h4>
+</html>

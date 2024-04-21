@@ -13,6 +13,8 @@ const {
     _getUserById,
     _updateUserById,
     _deleteBudgetAccount,
+    _getAllExpenses,
+    _getAllTypeOfExpenses,
     _createExpenses,
 } = require("../models/model.js");
 const { json } = require("express");
@@ -73,7 +75,9 @@ const loginUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         console.log(req.userid);
-        const users = await _getAllUsers();
+
+        const [users] = await _getAllUsers();
+        console.log(users);
         res.json(users);
     } catch (error) {
         console.error(error);
@@ -126,24 +130,41 @@ const getAllTypeOfBudget = async(req,res) =>{
     }
 
 }
+const getAllBudgetAccounts = async(req,res) =>{
+    
+    // const userId = req.body
+    // const userId = req.userid
+    // const userId = req.session.userid
+    // console.log('req.userid =>', req.userid);
+    // console.log('req.session.userid =>', req.session.userid);
+    try{
+        const typeOfBudget = await _getAllBudgetAccounts(userId = 1)
+
+        res.json(typeOfBudget)
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+
+}
 
 const createBudgetAccount = async (req, res) => {
 
-    const { account_name, account_amount, type_name } = req.body;
-    const { userid } = req.body
+    const { account_name, account_amount, type_id } = req.body;
     // const userId = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
 
-    console.log('contr before rty');
+    console.log('contr before try');
     try {
         console.log('contr try');
-        const newAccount = await _createBudgetAccount(account_name, account_amount, type_name.toLowerCase(), userid)
+        console.log(account_name, account_amount, type_id);
+        const newAccount = await _createBudgetAccount(account_name, account_amount, type_id, userid = 1)
         if (!newAccount) {
-            res.json({ message: 'Budget Account already created' })
+            res.status(200).json({ message: 'Budget Account already created' })
         } else {
-            res.json({ message: "asset was added successfully", newAccount });
+            res.statu(201).json({ message: "asset was added successfully", newAccount });
         }
     } catch (error) {
         console.log('contr catch');
@@ -195,8 +216,31 @@ const deleteBudgetAccount = async (req, res) => {
 
 }
 
+const getAllTypeOfExpenses = async(req,res)=>{
+    try{
+        const typeOfBudget = await _getAllTypeOfExpenses()
 
+        res.json(typeOfBudget)
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+const getAllExpenses = async(req,res)=>{
+    // const userId = req.userid
+    // const userId = req.session.userid
+    // console.log('req.userid =>', req.userid);
+    // console.log('req.session.userid =>', req.session.userid);
 
+    try{
+        const typeOfBudget = await _getAllExpenses(userId = 1)
+
+        res.json(typeOfBudget)
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 
 
@@ -235,5 +279,7 @@ module.exports = {
     createBudgetAccount,
     updateBudgetAccount,
     deleteBudgetAccount,
+    getAllExpenses,
+    getAllTypeOfExpenses,
     createExpenses,
 };
