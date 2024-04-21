@@ -259,6 +259,8 @@ module.exports = {
   _getAllUsers,
   _getUserById,
   _updateUserById,
+  _getAllTypeOfBudget,
+  _getAllBudgetAccounts,
   _createBudgetAccount,
   _updateBudgetAccount,
   _deleteBudgetAccount,

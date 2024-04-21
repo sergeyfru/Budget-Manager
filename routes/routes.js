@@ -2,6 +2,8 @@ const express = require('express')
 const {registerUser,
     loginUser,
     getAllUsers,
+    getAllTypeOfBudget,
+    getAllBudgetAccounts,
     createBudgetAccount,
     updateBudgetAccount,
     deleteBudgetAccount,
@@ -17,7 +19,10 @@ route.post('/login',loginUser)
 
 route.get('/users', getAllUsers)
 
-route.post('/budget', createBudgetAccount)
+route.get('/budget/type', getAllTypeOfBudget)
+route.get('/budget/list', getAllBudgetAccounts)
+
+route.post('/budget', createBudgetAccount) /** */
 route.put('/budget', updateBudgetAccount)
 route.delete('/budget', deleteBudgetAccount)
 
