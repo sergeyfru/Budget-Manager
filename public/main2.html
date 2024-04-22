@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="main2.css">
-    <script src="main2.js" defer></script>
+    <!-- <script src="main2.js" defer></script> -->
 </head>
 
 <body>
@@ -22,16 +22,22 @@
             <button id="btnAssets" onclick="btnAssetsClicked(event)">Assets</button>
             <button id="btnExpenses" onclick="btnExpensesClicked(event)">Expenses</button>
             <button>Other</button>
-            <button id="logOut">Log Out</button>
+            <button id="logOut" onclick="log_Out(event)">Log Out</button>
         </nav>
     </header>
 
     <div class="main">
         <div id="assets" class="option">
-            <h2>Yours payment methods</h2>
+            <div class="payment_header">
+                <h2>Yours payment methods</h2>
+                <div> <button onclick="updateAsset(event)">UPDATE</button><button
+                        onclick="deleteAsset(event)">DELETE</button></div>
+            </div>
             <div class="previus">
                 <ul id="previusAssets">
-                    <!-- <li>You dont have payment methods</li> -->
+                    <li>
+                        <div>You dont have previus expenses</div>
+                    </li>
                 </ul>
             </div>
             <form onsubmit="addNewAsset(event)">
@@ -53,24 +59,67 @@
             <h2>Yours expenses</h2>
             <div class="previus">
                 <ul id="previusExpenses">
-                    <!-- <li>You dont have previus expenses</li> -->
+                    <li>
+                        <div>You dont have previus expenses</div>
+                        <div> <button onclick="updateAsset(event)">UPDATE</button><button
+                                onclick="deleteAsset(event)">DELETE</button></div>
+                    </li>
                 </ul>
             </div>
-            <form action="">
-                <label for="t_exp_name">Type: </label>
-                <select id="t_exp_name" name="t_exp_name"></select>
-                <label for="exp_name">Name:</label>
-                <input type="text" name="exp_name" id="exp_name" placeholder="Name for your expense">
-                <label for="exp_amount">Amount:</label>
-                <input type="text" name="exp_amount" id="exp_amount">
+            <form onsubmit="addNewExpense(event)" action="">
+                <div>
+                    <label for="t_exp_name">Type: </label>
+                    <select id="t_exp_name" name="t_exp_name"></select>
+                </div>
+                <div>
+                    <label for="exp_name">Name:</label>
+                    <input type="text" name="exp_name" id="exp_name" placeholder="Name for your expense">
+                </div>
+                <div>
+                    <label for="exp_amount">Amount:</label>
+                    <input type="text" name="exp_amount" id="exp_amount">
+                </div>
+                <div>
+                    <label for="account_name">Payment method</label>
+                    <select name="account_name" id="how_to_pay"></select>
+                </div>
                 <input type="submit" value="ADD">
             </form>
         </div>
-        <div id="info">
-            <button onclick="close(event)">X</button>
-            <h2>wfrfge</h2>
+        <div id="info" class="info">
+            <button onclick="close_div(event)">X</button>
+            <h2>info</h2>
+        </div>
+        <div id="update_as" class="info">
+            <button onclick="close_div(event)">X</button>
+            <form onsubmit="updateAssetSubmited(event)">
+                <div><label for="account_id">Payment Method</label>
+                    <select name="account_id" id="card_name"> </select>
+                </div>
+                <div>
+                    <label for="account_name">New name</label>
+                    <input type="text" name="account_name">
+                </div>
+                <div>
+                    <label for="account_amount">New amount</label>
+                    <input type="text" name="account_amount" id="">
+                </div>
+                <input type="submit" value="UPDATE">
+            </form>
+        </div>
+        <div id="delete_as" class="info">
+            <button onclick="close_div(event)">X</button>
+            <form onsubmit="deleteAseetSubmited(event)">
+                <div>
+                    <label for="account_id">Payment Method</label>
+                    <select name="account_id" id="card_name_del"> </select>
+                </div>
+                
+                <input type="submit" value="DELETE">
+            </form>
         </div>
     </div>
+    <script src="main2.js" defer></script>
 </body>
-<h4>${obj[i].account_name.toUpperCase()}</h4>
+
 </html>

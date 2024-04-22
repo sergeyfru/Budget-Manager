@@ -90,17 +90,21 @@ const _updateUserById = async (id, updatedUser) => {
   }
 }
 
-const _getAllTypeOfBudget = async()=>{
+const _getAllTypeOfBudget = async () => {
   try {
-    const type_of_budget = await db("type_of_budget").select('type_name','type_id');
+    const type_of_budget = await db("type_of_budget").select('type_name', 'type_id')
+    .orderBy('type_id');
     return type_of_budget;
   } catch (error) {
     throw error;
   }
 }
-const _getAllBudgetAccounts = async(userid)=>{
+const _getAllBudgetAccounts = async (userid) => {
   try {
-    const budget_accounts = await db("budget_account").select('account_name','account_amount').where({userid});
+    const budget_accounts = await db("budget_account")
+      .select('account_name', 'account_amount', 'account_id')
+      .where({ userid })
+      .orderBy('account_id');
     return budget_accounts;
   } catch (error) {
     throw error;
@@ -114,20 +118,20 @@ const _createBudgetAccount = async (account_name, account_amount, type_id, useri
     console.log('model try 1');
 
     const accountAlreadyCreated = await trx('budget_account')
-    .select('account_name', 'account_amount').where({ userid, account_name }).first()
+      .select('account_name', 'account_amount').where({ userid, account_name }).first()
     if (accountAlreadyCreated) {
       return 0
     }
     console.log('model try 2');
-    
+
     const [newAccount] = await trx('budget_account')
-    .insert({ type_id, account_name, account_amount, userid }, ['account_name', 'account_amount'])
+      .insert({ type_id, account_name, account_amount, userid }, ['account_name', 'account_amount'])
     console.log('model try 3');
 
     await trx.commit();
 
     console.log(newAccount);
-    
+
     return newAccount;
 
   } catch (error) {
@@ -137,7 +141,7 @@ const _createBudgetAccount = async (account_name, account_amount, type_id, useri
   }
 }
 
-const _updateBudgetAccount = async (userId, account_name, old_account_name, account_amount) => {
+const _updateBudgetAccount = async (account_id, account_name, account_amount) => {
 
   console.log('models before try');
   const trx = await db.transaction();
@@ -145,13 +149,13 @@ const _updateBudgetAccount = async (userId, account_name, old_account_name, acco
 
     console.log('models in try 1');
 
-    const [account] = await trx('budget_account').select('account_id', 'account_name', 'userid')
-      .where({ account_name: old_account_name, userid: userId })
-    // .first()
-    const account_id = account.account_id
-    console.log(account_id);
+    // const [account] = await trx('budget_account').select('account_id', 'account_name', 'userid')
+    //   .where({ account_name: old_account_name, userid: userId })
+    // // .first()
+    // const account_id = account.account_id
+    // console.log(account_id);
 
-    console.log('models in try 2');
+    // console.log('models in try 2');
 
 
 
@@ -191,18 +195,18 @@ const _updateBudgetAccount = async (userId, account_name, old_account_name, acco
 }
 
 
-const _deleteBudgetAccount = async (userid, account_name) => {
+const _deleteBudgetAccount = async (account_id) => {
   const trx = await db.transaction();
   console.log('model befor try');
 
   try {
     console.log('model try 1');
 
-    const [account] = await trx('budget_account').select('account_id', 'account_name', 'userid').where({ account_name, userid })
+    // const [account] = await trx('budget_account').select('account_id', 'account_name', 'userid').where({ account_name, userid })
 
-    const account_id = account.account_id
+    // const account_id = account.account_id
 
-    console.log('model try 2');
+    // console.log('model try 2');
 
     const deleted = await trx('budget_account').del().where({ account_id }).returning("*")
 
@@ -218,9 +222,9 @@ const _deleteBudgetAccount = async (userid, account_name) => {
   }
 
 }
-const _getAllExpenses =async(userid)=>{
+const _getAllExpenses = async (userid) => {
   try {
-    const expenses = await db("expenses").select('exp_id','exp_name','exp_amount');
+    const expenses = await db("expenses").select('exp_id', 'exp_name', 'exp_amount');
     return expenses;
   } catch (error) {
     throw error;
@@ -230,7 +234,7 @@ const _getAllExpenses =async(userid)=>{
 
 const _getAllTypeOfExpenses = async () => {
   try {
-    const type_of_expenses = await db("type_of_expenses").select('t_exp_name','t_exp_id');
+    const type_of_expenses = await db("type_of_expenses").select('t_exp_name', 't_exp_id');
     return type_of_expenses;
   } catch (error) {
     throw error;
@@ -239,31 +243,27 @@ const _getAllTypeOfExpenses = async () => {
 
 
 
-const _createExpenses = async (exp_amount, exp_name, t_exp_name, account_name, userid) => {
+const _createExpenses = async (exp_amount, exp_name, t_exp_id, account_id, userid) => {
   const trx = await db.transaction();
   console.log('model befor try');
   try {
     console.log('model try 1');
-    const fromAccount = await trx("budget_account").select('account_id', 'account_name', 'account_amount').where({ account_name }).first()
+    const fromAccount = await trx("budget_account").select('account_id', 'account_name', 'account_amount').where({ account_id }).first()
 
     if (fromAccount.account_amount < exp_amount) {
+      console.log(fromAccount.account_amount);
       console.log('not enought money');
       return fromAccount.account_amount - exp_amount
     }
-    console.log(fromAccount.account_id);
 
-    console.log('model try 2');
-
-    const [t_exp] = await trx("type_of_expenses").select('t_exp_id', 't_exp_name').where({ t_exp_name })
-    console.log(t_exp.t_exp_id);
 
     console.log('model try 3');
 
     const [newExpenses] = await trx('expenses')
       .insert({
         userid,
-        t_exp_id: t_exp.t_exp_id,
-        account_id: fromAccount.account_id,
+        t_exp_id,
+        account_id,
         exp_name,
         exp_amount,
       }, ['userid', 'exp_name', 'exp_amount'])
@@ -271,10 +271,11 @@ const _createExpenses = async (exp_amount, exp_name, t_exp_name, account_name, u
     console.log('model try 4');
 
     const balance = fromAccount.account_amount - exp_amount
-    const [accountUpdated] = await trx("budget_account").where({ account_name })
+    const [accountUpdated] = await trx("budget_account").where({ account_id })
       .update({ account_amount: balance }, ['account_id', 'account_name', 'account_amount'])
 
     const returning = { newExpenses, accountUpdated }
+    console.log(returning);
 
     await trx.commit();
 
@@ -299,7 +300,7 @@ module.exports = {
   _createBudgetAccount,
   _updateBudgetAccount,
   _deleteBudgetAccount,
-  
+
   _getAllExpenses,
   _getAllTypeOfExpenses,
   _createExpenses,

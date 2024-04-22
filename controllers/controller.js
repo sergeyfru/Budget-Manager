@@ -175,7 +175,7 @@ const createBudgetAccount = async (req, res) => {
 };
 
 const updateBudgetAccount = async (req, res) => {
-    const { account_name, old_account_name, account_amount } = req.body
+    const { account_id, account_name, account_amount } = req.body
     // const userId = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
@@ -184,7 +184,7 @@ const updateBudgetAccount = async (req, res) => {
 
 
     try {
-        const updatedAccount = await _updateBudgetAccount(userid, account_name, old_account_name, account_amount)
+        const updatedAccount = await _updateBudgetAccount(account_id, account_name, account_amount)
         res.json(updatedAccount)
 
     } catch (error) {
@@ -196,14 +196,14 @@ const updateBudgetAccount = async (req, res) => {
 }
 
 const deleteBudgetAccount = async (req, res) => {
-    const { account_name, } = req.body
+    const { account_id } = req.body
     // const userId = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
     const { userid } = req.body
     try {
-        const deletedAccount = await _deleteBudgetAccount(userid, account_name)
+        const deletedAccount = await _deleteBudgetAccount(account_id)
 
         res.json({ message: 'Account deleted successfully', deletedAccount })
     } catch (error) {
@@ -245,27 +245,36 @@ const getAllExpenses = async(req,res)=>{
 
 
 const createExpenses = async (req, res) => {
-    const { exp_amount, exp_name, t_exp_name, account_name, } = req.body
+    const { t_exp_id, exp_name, exp_amount, account_id } = req.body
     // const userId = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
-    const { userid } = req.body
     try {
-        console.log(userid);
 
-        const newExpenses = await _createExpenses(exp_amount, exp_name, t_exp_name.toLowerCase(), account_name, userid)
+        const newExpenses = await _createExpenses(exp_amount, exp_name, t_exp_id, account_id, userid =1)
 
         if (newExpenses < 0) {
-            res.json({ message: `You dont have enought money here. You need ${newExpenses} more` })
+            res.status(200).json({ message: `You dont have enought money here. You need ${newExpenses} more` })
 
         } else {
-            res.json(newExpenses)
+            res.status(201).json(newExpenses)
         }
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: "Internal server error" });
     }
+}
+
+const logOut = async(req,res) =>{
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.sendStatus(500); // Server error
+        }
+        // Redirect to login page after logout
+        res.redirect('/login');
+    });
 }
 
 
@@ -282,4 +291,5 @@ module.exports = {
     getAllExpenses,
     getAllTypeOfExpenses,
     createExpenses,
+    logOut,
 };

@@ -37,8 +37,8 @@ app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
 });
 
-app.get('/budget', (req, res) => {
-    res.sendFile(__dirname + '/public/main.html');
+app.get('/main', (req, res) => {
+    res.sendFile(__dirname + '/public/main2.html');
 });
 
 

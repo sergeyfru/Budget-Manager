@@ -22,6 +22,15 @@ ul{
 li h4{
     display: inline-block;
     padding-right: 20px;
+    width: 200px;
+}
+.payment_header{
+    display: flex;
+    justify-content: space-between;
+}
+.payment_header button{
+    margin-left: 10px;
+    font-size: 16px;
 }
 .main{
     display: flex;
@@ -53,16 +62,41 @@ li h4{
     flex-direction: column;
     justify-content: space-around;
 }
-#info{
+/* .info{
     width: 400px;
     height: 200px;
-    background-color: rgba(0, 255, 255, 0.15);
-    position: relative;
+    background-color: rgba(0, 255, 255, 0.45);
+    position: absolute;
     display: none;
     text-align: center;
     padding: 86px;
+} */
+
+.info {
+    width: 400px;
+    height: 200px;
+    background-color: rgba(0, 255, 255, 0.945);
+    position: absolute;
+    display: none;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    justify-content: space-around;
+    
 }
-#info button{
+.info form{
+    height: 90%;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.info label{
+    display: inline-block;
+    width: 120px;
+}
+.info button{
     position: absolute;
     right: 4px;
     top: 4px;
@@ -72,9 +106,26 @@ li h4{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 0;
+    /* border: 0;
     color: black;
-    background-color: transparent;
+    background-color: transparent; */
+    font-size: 26px;
+    font-weight: 600;
+
+}
+.info button{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 0; */
+    color: black;
+    /* background-color: transparent; */
     font-size: 26px;
     font-weight: 600;
 

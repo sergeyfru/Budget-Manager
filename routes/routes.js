@@ -10,6 +10,7 @@ const {registerUser,
     getAllTypeOfExpenses,
     getAllExpenses,
     createExpenses,
+    logOut,
 } = require('../controllers/controller.js')
 
 const route = express.Router()
@@ -32,6 +33,8 @@ route.get('/expenses/type', getAllTypeOfExpenses)
 route.get('/expenses/list', getAllExpenses)
 
 route.post('/expenses', createExpenses)
+
+route.get('/logout',logOut)
 
 
 
