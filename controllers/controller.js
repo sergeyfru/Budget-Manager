@@ -85,7 +85,9 @@ const getAllUsers = async (req, res) => {
     }
 };
 const getUserById = async (req, res) => {
-    const userId = req.params.id;
+    // const userId = req.params.id;
+    // const userId = req.params.id;
+
 
     try {
         const user = await _getUserById(userId);
@@ -98,7 +100,8 @@ const getUserById = async (req, res) => {
     }
 };
 const updateUserById = async (req, res) => {
-    const userId = parseInt(req.params.id);
+    // const userId = parseInt(req.params.id);
+    // const userId = req.userid
     // const {username, password, email, first_name, last_name} = req.body;
 
     let updateUser = JSON.parse(JSON.stringify(req.body));
@@ -138,7 +141,7 @@ const getAllBudgetAccounts = async(req,res) =>{
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
     try{
-        const typeOfBudget = await _getAllBudgetAccounts(userId = 1)
+        const typeOfBudget = await _getAllBudgetAccounts(userId = 2)
 
         res.json(typeOfBudget)
     }catch (error) {
@@ -151,7 +154,7 @@ const getAllBudgetAccounts = async(req,res) =>{
 const createBudgetAccount = async (req, res) => {
 
     const { account_name, account_amount, type_id } = req.body;
-    // const userId = req.userid
+    // const userid = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
@@ -160,7 +163,7 @@ const createBudgetAccount = async (req, res) => {
     try {
         console.log('contr try');
         console.log(account_name, account_amount, type_id);
-        const newAccount = await _createBudgetAccount(account_name, account_amount, type_id, userid = 1)
+        const newAccount = await _createBudgetAccount(account_name, account_amount, type_id, userid = 2)
         if (!newAccount) {
             res.status(200).json({ message: 'Budget Account already created' })
         } else {
@@ -176,11 +179,11 @@ const createBudgetAccount = async (req, res) => {
 
 const updateBudgetAccount = async (req, res) => {
     const { account_id, account_name, account_amount } = req.body
-    // const userId = req.userid
+    // const userid = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
-    const { userid } = req.body
+    // const { userid } = req.body
 
 
     try {
@@ -197,11 +200,11 @@ const updateBudgetAccount = async (req, res) => {
 
 const deleteBudgetAccount = async (req, res) => {
     const { account_id } = req.body
-    // const userId = req.userid
+    // const userid = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
-    const { userid } = req.body
+    // const { userid } = req.body
     try {
         const deletedAccount = await _deleteBudgetAccount(account_id)
 
@@ -233,7 +236,7 @@ const getAllExpenses = async(req,res)=>{
     // console.log('req.session.userid =>', req.session.userid);
 
     try{
-        const typeOfBudget = await _getAllExpenses(userId = 1)
+        const typeOfBudget = await _getAllExpenses(userId = 2)
 
         res.json(typeOfBudget)
     }catch (error) {
@@ -246,13 +249,13 @@ const getAllExpenses = async(req,res)=>{
 
 const createExpenses = async (req, res) => {
     const { t_exp_id, exp_name, exp_amount, account_id } = req.body
-    // const userId = req.userid
+    // const userid = req.userid
     // const userId = req.session.userid
     // console.log('req.userid =>', req.userid);
     // console.log('req.session.userid =>', req.session.userid);
     try {
 
-        const newExpenses = await _createExpenses(exp_amount, exp_name, t_exp_id, account_id, userid =1)
+        const newExpenses = await _createExpenses(exp_amount, exp_name, t_exp_id, account_id, userid =2)
 
         if (newExpenses < 0) {
             res.status(200).json({ message: `You dont have enought money here. You need ${newExpenses} more` })

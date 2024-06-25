@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Adjust the URL to the endpoint where your server handles the login verification
-            const response = await fetch('http://localhost:3001/finance/login', {
+            const response = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
